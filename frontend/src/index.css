@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@theme {
+  /* The Umidasu — midnight theme: lime-green accent on black/white */
+  --color-ink: #ffffff;
+  --color-ink-soft: #d6d6d6;
+  --color-paper: #121212;
+  --color-cloud: #000000;
+  --color-mist: #1b1b1b;
+  --color-border: #272727;
+  --color-border-strong: #3a3a3a;
+
+  --color-orange-50: #17220c;
+  --color-orange-100: #1e2d0f;
+  --color-orange-200: #35501a;
+  --color-orange-300: #4f7a22;
+  --color-orange-400: #86c232;
+  --color-orange-500: #baff29;
+  --color-orange-600: #9fe617;
+  --color-orange-700: #d2ff7a;
+  --color-orange-800: #eaffbd;
+
+  --color-grey-50: #101010;
+  --color-grey-100: #1a1a1a;
+  --color-grey-200: #2a2a2a;
+  --color-grey-300: #4a4a4a;
+  --color-grey-400: #8c8c8c;
+  --color-grey-500: #a8a8a8;
+  --color-grey-600: #c9c9c9;
+
+  --color-success: #4ade80;
+  --color-warning: #facc15;
+  --color-danger: #f87171;
+  --color-danger-bg: rgba(248, 113, 113, 0.14);
+  --color-success-bg: rgba(74, 222, 128, 0.14);
+
+  --font-sans: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-cloud);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-orange-200);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+.mono { font-family: var(--font-mono); }
+
+.card {
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+}
+
+.btn-primary {
+  background: var(--color-orange-500);
+  color: #0c1404;
+  font-weight: 600;
+  transition: background-color 120ms ease;
+}
+.btn-primary:hover { background: var(--color-orange-600); }
+.btn-primary:disabled { background: var(--color-grey-200); color: var(--color-grey-400); cursor: not-allowed; font-weight: 500; }
+
+.btn-secondary {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  border: 1px solid var(--color-border-strong);
+  transition: all 120ms ease;
+}
+.btn-secondary:hover { border-color: var(--color-orange-400); background: var(--color-orange-50); }
+.btn-secondary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.badge {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Umidasu means "to draw out" — the mark animates as a single reveal on
+   load (the ring traces itself, then the handle is drawn out), rather
+   than looping or re-triggering. Respects reduced-motion. */
+@keyframes umidasu-draw-ring {
+  from { stroke-dashoffset: 44; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes umidasu-draw-handle {
+  from { stroke-dashoffset: 10; opacity: 0; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+.logo-mark circle {
+  stroke-dasharray: 44;
+  stroke-dashoffset: 44;
+  animation: umidasu-draw-ring 650ms cubic-bezier(0.22, 1, 0.36, 1) 60ms forwards;
+}
+.logo-mark line {
+  stroke-dasharray: 10;
+  stroke-dashoffset: 10;
+  opacity: 0;
+  animation: umidasu-draw-handle 260ms ease-out 650ms forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-mark circle,
+  .logo-mark line {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.recent-row {
+  position: relative;
+}
+.recent-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  bottom: 0.35rem;
+  width: 2px;
+  background: var(--color-orange-500);
+  border-radius: 2px;
+  transform: scaleY(0);
+  transition: transform 150ms ease;
+}
+.recent-row:hover::before,
+.recent-row[data-active="true"]::before {
+  transform: scaleY(1);
+}

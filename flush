@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# The Umidasu — fail-safe reset.
+#
+# Deletes ALL locally stored progress: the history database (file records,
+# operation log, saved metadata presets) and every file under the
+# originals/working/output stores. This cannot be undone.
+#
+#   chmod +x flush
+#   ./flush
+#
+set -euo pipefail
+
+DATA_DIR="${UMIDASU_DATA_DIR:-$HOME/.umidasu}"
+DB_PATH="$DATA_DIR/umidasu.db"
+ORIGINALS_DIR="$DATA_DIR/originals"
+WORKING_DIR="$DATA_DIR/working"
+OUTPUT_DIR="$DATA_DIR/output"
+
+c_reset=$'\033[0m'; c_bold=$'\033[1m'; c_orange=$'\033[38;5;208m'; c_grey=$'\033[90m'; c_red=$'\033[31m'; c_green=$'\033[32m'
+
+log()  { echo "${c_orange}[umidasu]${c_reset} $*"; }
+warn() { echo "${c_orange}[umidasu]${c_reset} ${c_red}WARNING:${c_reset} $*"; }
+die()  { echo "${c_orange}[umidasu]${c_reset} ${c_red}ERROR:${c_reset} $*" >&2; exit 1; }
+
+echo
+echo "  ${c_bold}${c_red}THE UMIDASU — FAIL-SAFE RESET${c_reset}"
+echo
+
+if [[ ! -d "$DATA_DIR" ]]; then
+  log "No data directory found at $DATA_DIR — nothing to flush."
+  exit 0
+fi
+
+warn "This will permanently delete:"
+echo "    - The history database:   ${c_grey}$DB_PATH${c_reset}"
+echo "      (file records, operation log, saved metadata presets)"
+echo "    - All stored originals:   ${c_grey}$ORIGINALS_DIR${c_reset}"
+echo "    - All working copies:     ${c_grey}$WORKING_DIR${c_reset}"
+echo "    - All saved outputs:      ${c_grey}$OUTPUT_DIR${c_reset}"
+echo
+warn "This action cannot be undone. Any output you have not downloaded will be lost."
+warn "Stop The Umidasu (Ctrl+C in its terminal) first if it is currently running."
+echo
+
+read -r -p "  Type RESET to confirm: " CONFIRM || true
+if [[ "${CONFIRM:-}" != "RESET" ]]; then
+  log "Flush cancelled. Nothing was deleted."
+  exit 0
+fi
+
+DELETED_ANY=0
+
+if [[ -f "$DB_PATH" ]]; then
+  rm -f "$DB_PATH" "$DB_PATH-journal" "$DB_PATH-wal" "$DB_PATH-shm" 2>/dev/null || true
+  log "Deleted history database: $DB_PATH"
+  DELETED_ANY=1
+fi
+
+for dir in "$ORIGINALS_DIR" "$WORKING_DIR" "$OUTPUT_DIR"; do
+  if [[ -d "$dir" ]]; then
+    FILE_COUNT=$(find "$dir" -type f 2>/dev/null | wc -l | tr -d ' ')
+    rm -rf "$dir"
+    mkdir -p "$dir"
+    chmod 700 "$dir" 2>/dev/null || true
+    log "Cleared $dir ($FILE_COUNT file(s) removed)"
+    DELETED_ANY=1
+  fi
+done
+
+echo
+if [[ "$DELETED_ANY" -eq 1 ]]; then
+  echo "  ${c_bold}${c_green}Flush complete.${c_reset} The Umidasu has been reset to a clean state."
+else
+  log "Nothing to delete — The Umidasu was already clean."
+fi
+echo
