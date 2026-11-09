@@ -1,16 +1,33 @@
-# The Umidasu
+ <div align="center">
 
-Universal Metadata Inspector, Editor and File Analyzer.
+# ⚡ THE UMIDASU
 
-The Umidasu is a local-first web application for inspecting, analyzing, comparing, editing, sanitizing, and exporting metadata from images, video, audio, PDFs, Office documents, archives, and arbitrary binary files. It is built for people who need to know exactly what information a file is carrying, and exactly what changes when that information is edited or removed.
+### Universal Metadata Inspector, Editor and File Analyzer
 
-Author: TENETx0
+**Reveal What Files Conceal.**
 
-Everything runs on your own machine. There is no external API, no telemetry, and no third-party upload path. Files you analyze never leave the host running the application.
+[![Platform](https://img.shields.io/badge/Platform-Local--First-00F0FF?style=for-the-badge&logo=linux&logoColor=white)](#)
+[![Python](https://img.shields.io/badge/Python-3.9--3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)](#)
+[![React](https://img.shields.io/badge/React-TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](#)
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](#)
+[![Privacy](https://img.shields.io/badge/Privacy-Local_Processing-success?style=for-the-badge&logo=shield&logoColor=white)](#)
 
 ---
 
-## Table of contents
+**Inspect · Analyze · Compare · Edit · Sanitize · Export**
+
+</div>
+
+The Umidasu is a local-first web application for inspecting, analyzing, comparing, editing, sanitizing, and exporting metadata from images, video, audio, PDFs, Office documents, archives, and arbitrary binary files. It is built for people who need to know exactly what information a file is carrying, and exactly what changes when that information is edited or removed.
+
+**Author:** TENETx0
+
+> [!IMPORTANT]
+> Everything runs on your own machine. There is no external API, no telemetry, and no third-party upload path. Files you analyze never leave the host running the application.
+
+---
+
+## 📑 Table of Contents
 
 - [Uses](#uses)
 - [Use cases](#use-cases)
@@ -25,7 +42,7 @@ Everything runs on your own machine. There is no external API, no telemetry, and
 
 ---
 
-## Uses
+## 🎯 Uses
 
 The Umidasu is used to:
 
@@ -42,7 +59,7 @@ The Umidasu is used to:
 - Hash files (MD5, SHA-1, SHA-256, SHA-512) and quickly copy any digest for use elsewhere.
 - Save edited files without forcing recompression of image or media payloads, and get an explicit report on whether the original encoding was preserved.
 
-## Use cases
+## 🔍 Use cases
 
 - **Pre-publication sanitization** — stripping GPS coordinates, device identifiers, author names, and embedded timestamps from photos, documents, or PDFs before they are published, submitted, or shared externally.
 - **OSINT and reconnaissance triage** — pulling every available metadata field from a target's publicly shared files (documents, images, PDFs) to assess what information they unintentionally expose, as part of an authorized engagement.
@@ -53,7 +70,7 @@ The Umidasu is used to:
 - **Metadata-standard research and tooling development** — using the parser and tag-decoding layer as a reference implementation when building or testing other tools that need to read or strip the same metadata.
 - **Personal and organizational privacy hygiene** — routine cleanup of metadata in images and documents before they are stored, shared, or uploaded, without relying on a third-party online "metadata remover."
 
-## Areas of usage
+## 🌐 Areas of usage
 
 - Penetration testing and red team engagements (reconnaissance, reporting hygiene, artifact review)
 - Bug bounty research and submission preparation
@@ -66,9 +83,9 @@ The Umidasu is used to:
 
 ---
 
-## Feature overview
+## 🚀 Feature overview
 
-### Inspection and analysis
+### 🔬 Inspection and analysis
 
 - **File identification** independent of filename — magic-byte signatures plus libmagic, with extension-mismatch detection and warning.
 - **Hashing** — MD5, SHA-1, SHA-256, SHA-512, each annotated with a note on its current cryptographic strength, plus entropy and byte-histogram analysis. One-click copy of any hash.
@@ -85,7 +102,7 @@ The Umidasu is used to:
 - **Duplicate Metadata Detector** — surfaces fields that carry the same value across multiple tag groups (for example, a title present in both EXIF and XMP).
 - **Missing Metadata Suggestions** — flags fields that are commonly present in files of the same type but absent from the current file.
 
-### Editing and transformation
+### 🛠️ Editing and transformation
 
 - **Metadata Editor** — per-field add/edit/remove, full undo/redo, Reset Pending Changes, Revert Working Copy, and Save As, which never overwrites the original file.
 - **Custom timestamps** — set created/modified/accessed values at the filesystem level (`os.utime`) and, where the format supports it, in embedded date tags (EXIF/XMP/QuickTime). The Linux filesystem birth-time limitation is explicitly reported, never silently ignored.
@@ -98,7 +115,7 @@ The Umidasu is used to:
 - **Save Without Recompression** — preserves the original image/media encoding on save where the toolchain supports it, with an explicit report on whether recompression was avoided.
 - **Removal presets** — GPS, camera/device, author/personal, timestamps, comments, XMP/IPTC, or all writable metadata, applied to a working copy with original-file immutability guaranteed.
 
-### Verification and auditability
+### 🧾 Verification and auditability
 
 - **Verification** — every Save As re-extracts metadata from the output file and reports exactly which fields changed, plus recomputed hashes.
 - **Metadata Change History** — a persistent, field-level before/after log of every save operation.
@@ -106,7 +123,7 @@ The Umidasu is used to:
 
 ---
 
-## Installation
+## 📦 Installation
 
 ### Requirements
 
@@ -160,9 +177,9 @@ All configuration is via environment variables, read by `backend/app/core/config
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
-```
+```text
 umidasu/
   execute.sh              startup script
   flush                   fail-safe: wipes all stored data and history
@@ -200,7 +217,7 @@ New formats can be added by writing a new parser module and registering it in `b
 
 ---
 
-## Security model
+## 🔐 Security model
 
 - Binds to `127.0.0.1` by default; any other host must be opted into explicitly.
 - Randomized server-side file identifiers — uploaded filenames are never trusted or used as storage paths.
@@ -212,7 +229,7 @@ New formats can be added by writing a new parser module and registering it in `b
 - Archive and nested-archive contents are listed, never auto-extracted.
 - Office document macros are never executed.
 
-## Known limitations
+## ⚠️ Known limitations
 
 Reported honestly, not hidden from the user interface:
 
@@ -221,7 +238,7 @@ Reported honestly, not hidden from the user interface:
 - Video/audio analysis is container/stream-level only; no frame-by-frame decoding is performed.
 - Metadata removal presets cannot guarantee complete sanitization. Residual data may remain in pixel content, document body text, embedded streams, thumbnails, or format-specific structures that are not exposed as writable tags. This is stated to the user before and after every removal operation.
 
-## Testing
+## 🧪 Testing
 
 ```bash
 source .venv/bin/activate
@@ -231,7 +248,7 @@ pytest tests/ -v
 
 The suite runs against real generated fixture files (JPEG with real EXIF/GPS, DOCX, PDF, ZIP) rather than mocked parsers, covering identification and MIME-mismatch detection, hashing, extraction, editing, removal presets, undo/redo/reset, save-as plus verification, original-file integrity, custom timestamps (including the documented Linux limitation), copy/paste, snapshots and diffing, presets, duplicate and missing-field detection, metadata size analysis, change history, save-without-recompression, path-traversal rejection, and report export.
 
-## Fail-safe reset
+## 🧹 Fail-safe reset
 
 `./flush` deletes all locally stored progress: the history database (file records, operation log, saved presets) and every originals/working/output file on disk under the configured data directory. It is destructive and irreversible, and prompts for confirmation before acting. See the script itself for details.
 
@@ -242,6 +259,18 @@ chmod +x flush
 
 ---
 
-## Disclaimer
+## ⚖️ Disclaimer
 
 The Umidasu is a local inspection and editing tool. It does not guarantee complete metadata removal for every format and should not be treated as a substitute for understanding what a given file format can and cannot fully sanitize. Use it only on files you own or are explicitly authorized to inspect and modify.
+
+---
+
+<div align="center">
+
+### ⚡ THE UMIDASU
+
+**Reveal What Files Conceal.**
+
+*Local-first. Privacy-focused. Metadata intelligence.*
+
+</div>
