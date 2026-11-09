@@ -19,7 +19,7 @@
 
 </div>
 
-The Umidasu is a local-first web application for inspecting, analyzing, comparing, editing, sanitizing, and exporting metadata from images, video, audio, PDFs, Office documents, archives, and arbitrary binary files. It is built for people who need to know exactly what information a file is carrying — and exactly what changes the moment that information is added, edited, or removed.
+The Umidasu is a local-first web application for inspecting, analyzing, comparing, editing, sanitizing, and exporting metadata from images, video, audio, PDFs, Office documents, archives, and arbitrary binary files. It is built for people who need to know exactly what information a file is carrying and exactly what changes the moment that information is added, edited, or removed.
 
 **Author:** TENETx0
 
@@ -49,11 +49,11 @@ The Umidasu is a local-first web application for inspecting, analyzing, comparin
 
 The Umidasu is used to:
 
-- Extract and view every metadata field a file exposes — EXIF, IPTC, XMP, PDF document info, Office core properties, archive member listings, container-level audio/video tags, and raw binary structure.
+- Extract and view every metadata field a file exposes EXIF, IPTC, XMP, PDF document info, Office core properties, archive member listings, container-level audio/video tags, and raw binary structure.
 - Identify a file by its actual content rather than its name or extension, and flag files whose extension does not match their real format.
 - Compare the metadata of two files, or compare a file against a previously saved snapshot of itself, with field-level added/removed/modified highlighting.
 - Edit, add, or remove individual metadata fields and verify after saving that the output file actually reflects the intended change.
-- Insert new metadata from a curated catalog of classic tags, a 28+ entry dropdown of extended fields, or a fully custom tag of your own — then save without leaving the panel.
+- Insert new metadata from a curated catalog of classic tags, a 28+ entry dropdown of extended fields, or a fully custom tag of your own then save without leaving the panel.
 - Apply metadata removal presets (GPS, device/camera, author/personal identifiers, timestamps, comments, XMP/IPTC blocks, or everything writable) before sharing or publishing a file.
 - Normalize inconsistent timestamp formats across EXIF, XMP, and filesystem metadata into a single readable form, and convert embedded GPS coordinates between decimal degrees and DMS.
 - Detect duplicate or redundant metadata fields carried in more than one tag group, and surface fields that are commonly present in similar files but missing from the current one.
@@ -93,7 +93,7 @@ The Umidasu is used to:
 
 ###  Inspection and analysis
 
-- **File identification** independent of filename — magic-byte signatures plus libmagic, with extension-mismatch detection and warning.
+- **File identification** independent of filename magic-byte signatures plus libmagic, with extension-mismatch detection and warning.
 - **Hashing** — MD5, SHA-1, SHA-256, SHA-512, each annotated with a note on its current cryptographic strength, plus entropy and byte-histogram analysis. One-click copy of any hash.
 - **Image metadata** — EXIF/IPTC/XMP via exiftool, dimensions/color/animation via Pillow, GPS and camera/author fields grouped and flagged for sensitivity.
 - **Video/audio** — container and per-stream analysis via ffprobe, container tags, chapter data. Frame-by-frame decoding is explicitly not performed and is reported as such, never silently skipped.
@@ -137,7 +137,7 @@ The Umidasu is used to:
 ##  Quick Start Walkthroughs
 
 > [!TIP]
-> Every tab in the app maps to one phase below — Inspection, Metadata Editor, Tools, Sanitization, History. You will rarely need more than two tabs for any one task.
+> Every tab in the app maps to one phase below Inspection, Metadata Editor, Tools, Sanitization, History. You will rarely need more than two tabs for any one task.
 
 ### Walkthrough 1 — Strip GPS and identity data before posting a photo publicly
 
@@ -171,7 +171,7 @@ The Umidasu is used to:
 ### Walkthrough 4 — Start clean
 
 > [!WARNING]
-> This deletes everything The Umidasu has stored — there is no undo.
+> This deletes everything The Umidasu has stored, There is no undo.
 
 ```bash
 chmod +x flush
@@ -223,7 +223,7 @@ Press `Ctrl+C` to stop. The script shuts down its child process cleanly.
 | Arch | `sudo pacman -S perl-image-exiftool ffmpeg` |
 
 > [!NOTE]
-> A tool can work fine in your terminal but still show as **not installed** in the app if it lives somewhere your shell only adds to `PATH` via `~/.bashrc` (snap packages and manual/static installs are the usual culprits) — a non-interactive script invocation doesn't source that file. `execute.sh` now covers the common locations automatically; if a tool still doesn't show up, run `which ffmpeg` / `which ffprobe` and symlink the result into `/usr/local/bin`.
+> A tool can work fine in your terminal but still show as **not installed** in the app if it lives somewhere your shell only adds to `PATH` via `~/.bashrc` (snap packages and manual/static installs are the usual culprits) a non-interactive script invocation doesn't source that file. `execute.sh` now covers the common locations automatically; if a tool still doesn't show up, run `which ffmpeg` / `which ffprobe` and symlink the result into `/usr/local/bin`.
 
 ### Configuration
 
@@ -231,7 +231,7 @@ All configuration is via environment variables, read by `backend/app/core/config
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `UMIDASU_HOST` | `127.0.0.1` | Bind address. Changing this exposes the app beyond localhost — only do so if you understand the risk, as The Umidasu processes untrusted files. |
+| `UMIDASU_HOST` | `127.0.0.1` | Bind address. Changing this exposes the app beyond localhost only do so if you understand the risk, as The Umidasu processes untrusted files. |
 | `UMIDASU_PORT` | `8420` | Bind port. |
 | `UMIDASU_DATA_DIR` | `~/.umidasu` | Directory for the database and the originals/working/output file stores. |
 | `UMIDASU_MAX_UPLOAD_MB` | `512` | Maximum upload size. |
@@ -301,9 +301,9 @@ New formats can be added by writing a new parser module and registering it in `b
 ##  Security model
 
 - Binds to `127.0.0.1` by default; any other host must be opted into explicitly.
-- Randomized server-side file identifiers — uploaded filenames are never trusted or used as storage paths.
+- Randomized server-side file identifiers uploaded filenames are never trusted or used as storage paths.
 - Path-traversal-safe joins and symlink-attack protection throughout file handling.
-- No-overwrite guarantee — the original uploaded file is never modified; all edits are written to a separate working/output copy.
+- No-overwrite guarantee the original uploaded file is never modified; all edits are written to a separate working/output copy.
 - Subprocess calls (exiftool, ffprobe) are executed with explicit argv arrays, never through a shell string.
 - Upload size limits and per-parser timeouts prevent resource exhaustion from hostile or malformed input.
 - Error responses are generic by default and never leak internal paths, stack traces, or tool output to the client.
@@ -329,7 +329,7 @@ cd backend
 pytest tests/ -v
 ```
 
-The suite runs against real generated fixture files (JPEG with real EXIF/GPS, DOCX, PDF, ZIP) rather than mocked parsers — 65 tests covering identification and MIME-mismatch detection, hashing, extraction, editing, metadata insertion, removal presets, undo/redo/reset, save plus verification, original-file integrity, custom timestamps (including the documented Linux limitation), copy/paste, snapshots and diffing, presets, duplicate and missing-field detection, metadata size analysis, change history, save-without-recompression, office core-property validation, path-traversal rejection, and report export.
+The suite runs against real generated fixture files (JPEG with real EXIF/GPS, DOCX, PDF, ZIP) rather than mocked parsers 65 tests covering identification and MIME-mismatch detection, hashing, extraction, editing, metadata insertion, removal presets, undo/redo/reset, save plus verification, original-file integrity, custom timestamps (including the documented Linux limitation), copy/paste, snapshots and diffing, presets, duplicate and missing-field detection, metadata size analysis, change history, save-without-recompression, office core-property validation, path-traversal rejection, and report export.
 
 ##  Fail-safe reset
 
