@@ -12,8 +12,7 @@
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](#)
 [![Privacy](https://img.shields.io/badge/Privacy-Local_Processing-success?style=for-the-badge&logo=shield&logoColor=white)](#)
 [![Tests](https://img.shields.io/badge/Backend_Suite-65_Passing-BAFF29?style=for-the-badge&logo=pytest&logoColor=black)](#)
-[![Author](https://img.shields.io/badge/Author-TENETx0-111111?style=for-the-badge&logo=github&logoColor=BAFF29)](#)
-
+ 
 ---
 
 **Inspect · Analyze · Compare · Edit · Insert · Sanitize · Verify · Export**
