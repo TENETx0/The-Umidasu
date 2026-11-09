@@ -1,8 +1,8 @@
- <div align="center">
+<div align="center">
 
-#  THE UMIDASU
+# 🔍 THE UMIDASU
 
-### Universal Metadata Inspector, Editor and File Analyzer
+### Universal Metadata Inspector, Editor & File Analyzer
 
 **Reveal What Files Conceal.**
 
@@ -11,14 +11,16 @@
 [![React](https://img.shields.io/badge/React-TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black)](#)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](#)
 [![Privacy](https://img.shields.io/badge/Privacy-Local_Processing-success?style=for-the-badge&logo=shield&logoColor=white)](#)
+[![Tests](https://img.shields.io/badge/Backend_Suite-65_Passing-BAFF29?style=for-the-badge&logo=pytest&logoColor=black)](#)
+[![Author](https://img.shields.io/badge/Author-TENETx0-111111?style=for-the-badge&logo=github&logoColor=BAFF29)](#)
 
 ---
 
-**Inspect · Analyze · Compare · Edit · Sanitize · Export**
+**Inspect · Analyze · Compare · Edit · Insert · Sanitize · Verify · Export**
 
 </div>
 
-The Umidasu is a local-first web application for inspecting, analyzing, comparing, editing, sanitizing, and exporting metadata from images, video, audio, PDFs, Office documents, archives, and arbitrary binary files. It is built for people who need to know exactly what information a file is carrying, and exactly what changes when that information is edited or removed.
+The Umidasu is a local-first web application for inspecting, analyzing, comparing, editing, sanitizing, and exporting metadata from images, video, audio, PDFs, Office documents, archives, and arbitrary binary files. It is built for people who need to know exactly what information a file is carrying — and exactly what changes the moment that information is added, edited, or removed.
 
 **Author:** TENETx0
 
@@ -27,29 +29,32 @@ The Umidasu is a local-first web application for inspecting, analyzing, comparin
 
 ---
 
-##  Table of Contents
+## 📋 Table of Contents
 
-- [Uses](#uses)
-- [Use cases](#use-cases)
-- [Areas of usage](#areas-of-usage)
-- [Feature overview](#feature-overview)
-- [Installation](#installation)
-- [Architecture](#architecture)
-- [Security model](#security-model)
-- [Known limitations](#known-limitations)
-- [Testing](#testing)
-- [Fail-safe reset](#fail-safe-reset)
+- [Uses](#-uses)
+- [Use cases](#-use-cases)
+- [Areas of usage](#-areas-of-usage)
+- [Feature overview](#-feature-overview)
+- [Quick start walkthroughs](#-quick-start-walkthroughs)
+- [Installation](#-installation)
+- [Architecture](#-architecture)
+- [Security model](#-security-model)
+- [Known limitations](#-known-limitations)
+- [Testing](#-testing)
+- [Fail-safe reset](#-fail-safe-reset)
+- [Disclaimer](#-disclaimer)
 
 ---
 
-##  Uses
+## 🎯 Uses
 
 The Umidasu is used to:
 
-- Extract and view every metadata field a file exposes (EXIF, IPTC, XMP, PDF document info, Office core properties, archive member listings, container-level audio/video tags, and raw binary structure).
+- Extract and view every metadata field a file exposes — EXIF, IPTC, XMP, PDF document info, Office core properties, archive member listings, container-level audio/video tags, and raw binary structure.
 - Identify a file by its actual content rather than its name or extension, and flag files whose extension does not match their real format.
 - Compare the metadata of two files, or compare a file against a previously saved snapshot of itself, with field-level added/removed/modified highlighting.
 - Edit, add, or remove individual metadata fields and verify after saving that the output file actually reflects the intended change.
+- Insert new metadata from a curated catalog of classic tags, a 28+ entry dropdown of extended fields, or a fully custom tag of your own — then save without leaving the panel.
 - Apply metadata removal presets (GPS, device/camera, author/personal identifiers, timestamps, comments, XMP/IPTC blocks, or everything writable) before sharing or publishing a file.
 - Normalize inconsistent timestamp formats across EXIF, XMP, and filesystem metadata into a single readable form, and convert embedded GPS coordinates between decimal degrees and DMS.
 - Detect duplicate or redundant metadata fields carried in more than one tag group, and surface fields that are commonly present in similar files but missing from the current one.
@@ -58,8 +63,9 @@ The Umidasu is used to:
 - Maintain a local, auditable history of every operation performed on a file (hashes before and after, fields changed, tool versions, success/failure) and export that history as JSON, CSV, or HTML.
 - Hash files (MD5, SHA-1, SHA-256, SHA-512) and quickly copy any digest for use elsewhere.
 - Save edited files without forcing recompression of image or media payloads, and get an explicit report on whether the original encoding was preserved.
+- Wipe every stored file and history record in one confirmed action, with a dedicated fail-safe reset script.
 
-##  Use cases
+## 💼 Use cases
 
 - **Pre-publication sanitization** — stripping GPS coordinates, device identifiers, author names, and embedded timestamps from photos, documents, or PDFs before they are published, submitted, or shared externally.
 - **OSINT and reconnaissance triage** — pulling every available metadata field from a target's publicly shared files (documents, images, PDFs) to assess what information they unintentionally expose, as part of an authorized engagement.
@@ -67,10 +73,11 @@ The Umidasu is used to:
 - **Evidence and artifact review** — inspecting files received during an engagement (dropped payloads, attachments, documents of unknown origin) for embedded metadata that may indicate authorship, tooling, or originating environment, without executing the file.
 - **File provenance and tamper checking** — hashing a file before and after it passes through a pipeline or third party, and diffing its metadata to confirm nothing was altered beyond what was expected.
 - **Format verification** — catching files whose declared extension does not match their actual binary signature, a common indicator of disguised payloads or mislabeled attachments.
+- **Chain-of-custody labeling** — inserting case numbers, handling instructions, or credit lines into evidence copies via custom metadata tags, without touching the original file.
 - **Metadata-standard research and tooling development** — using the parser and tag-decoding layer as a reference implementation when building or testing other tools that need to read or strip the same metadata.
 - **Personal and organizational privacy hygiene** — routine cleanup of metadata in images and documents before they are stored, shared, or uploaded, without relying on a third-party online "metadata remover."
 
-##  Areas of usage
+## 🏢 Areas of usage
 
 - Penetration testing and red team engagements (reconnaissance, reporting hygiene, artifact review)
 - Bug bounty research and submission preparation
@@ -83,9 +90,9 @@ The Umidasu is used to:
 
 ---
 
-##  Feature overview
+## ✨ Feature overview
 
-###  Inspection and analysis
+### 🔎 Inspection and analysis
 
 - **File identification** independent of filename — magic-byte signatures plus libmagic, with extension-mismatch detection and warning.
 - **Hashing** — MD5, SHA-1, SHA-256, SHA-512, each annotated with a note on its current cryptographic strength, plus entropy and byte-histogram analysis. One-click copy of any hash.
@@ -102,9 +109,14 @@ The Umidasu is used to:
 - **Duplicate Metadata Detector** — surfaces fields that carry the same value across multiple tag groups (for example, a title present in both EXIF and XMP).
 - **Missing Metadata Suggestions** — flags fields that are commonly present in files of the same type but absent from the current file.
 
-###  Editing and transformation
+### ✏️ Editing, insertion, and transformation
 
 - **Metadata Editor** — per-field add/edit/remove, full undo/redo, Reset Pending Changes, Revert Working Copy, and Save As, which never overwrites the original file.
+- **Insert Metadata panel** — a dedicated space to add new fields rather than only edit existing ones:
+  - *Quick-add rows* for the most common tags per file type (Author, Copyright, Description, Title, Keywords, and more), pre-filled with the exact write-key the verification engine expects.
+  - *Classic tags dropdown* — 28+ additional tags for image/video/audio files (byline, headline, caption, province/state, country, rating, label, credit, and more) and extended Office properties, every one verified against a real fixture before being offered.
+  - *Custom metadata tag* — a free-form key/value field for anything not already listed. Unsupported or unrecognized tag names are reported as failed after saving, never silently dropped.
+  - A **Save** button lives directly beneath the panel, so a field can be added and the file exported without leaving the tab.
 - **Custom timestamps** — set created/modified/accessed values at the filesystem level (`os.utime`) and, where the format supports it, in embedded date tags (EXIF/XMP/QuickTime). The Linux filesystem birth-time limitation is explicitly reported, never silently ignored.
 - **Timestamp Normalizer** — reconciles inconsistent date/time representations across EXIF, XMP, and filesystem metadata into one consistent, human-readable value.
 - **GPS Coordinate Converter** — converts embedded GPS coordinates between decimal degrees and degrees/minutes/seconds.
@@ -113,23 +125,71 @@ The Umidasu is used to:
 - **One-Click Metadata Snapshot** — capture the current metadata state of a file for later comparison or restore.
 - **Metadata Difference Highlighting** — live field-level added/removed/modified comparison, driven by pending edits or a restored snapshot.
 - **Save Without Recompression** — preserves the original image/media encoding on save where the toolchain supports it, with an explicit report on whether recompression was avoided.
-- **Removal presets** — GPS, camera/device, author/personal, timestamps, comments, XMP/IPTC, or all writable metadata, applied to a working copy with original-file immutability guaranteed.
+- **Removal presets** — GPS, camera/device, author/personal, timestamps, comments, XMP/IPTC, or all writable metadata, applied to a working copy with original-file immutability guaranteed, with its own dedicated **Save Sanitized File** button.
 
-###  Verification and auditability
+### ✅ Verification and auditability
 
-- **Verification** — every Save As re-extracts metadata from the output file and reports exactly which fields changed, plus recomputed hashes.
+- **Verification** — every Save re-extracts metadata from the output file and reports exactly which fields changed, plus recomputed hashes.
 - **Metadata Change History** — a persistent, field-level before/after log of every save operation.
 - **Session history** — SQLite-backed operation log (original/output hashes, fields changed, tool versions, success/failure) with JSON/CSV/HTML export and a Clear Session Data action.
 
 ---
 
-##  Installation
+## 🚀 Quick Start Walkthroughs
+
+> [!TIP]
+> Every tab in the app maps to one phase below — Inspection, Metadata Editor, Tools, Sanitization, History. You will rarely need more than two tabs for any one task.
+
+### Walkthrough 1 — Strip GPS and identity data before posting a photo publicly
+
+1. Launch the app (see [Installation](#-installation)) and open it in your browser.
+2. Drag the photo onto the upload zone, or click **Browse Files**.
+3. Open the **Inspection** tab and check the **GPS / Location** and **Camera / Device** sections — this is exactly what a viewer could learn about where and how the photo was taken.
+4. Switch to the **Sanitization** tab.
+5. Check **GPS / Location**, **Camera / Device**, and **Personal / Author**, then click **Apply Presets**.
+6. Click **Save Sanitized File** — a new file is written; the original is never touched.
+7. Confirm the result: the save banner shows exactly which fields were removed and whether the image stream was recompressed.
+8. Download the sanitized file and verify in the **Inspection** tab of the new file that the stripped fields are gone.
+
+### Walkthrough 2 — Insert professional credit metadata into a deliverable
+
+1. Upload the file and open the **Metadata Editor** tab.
+2. In the **Insert Metadata** panel, fill in **Author**, **Copyright**, and **Credit Line** in the quick-add rows and click **+ Add** on each.
+3. Need something not listed? Open **More classic tags**, pick one from the dropdown (e.g. *Headline*), type a value, and click **+ Add Tag**.
+4. Need something entirely custom, like a case or job reference? Use the **Custom metadata tag** fields at the bottom — type the tag key and value, then **+ Add Custom Tag**.
+5. Review everything staged in the **Pending changes** list below.
+6. Click **Save Edited File** (or **Save As New File** further down) — both write the same output.
+7. Download the result and check the **Changes applied** list in the save banner for a field-by-field before/after.
+
+### Walkthrough 3 — Compare a file against a known-good baseline
+
+1. Upload the original file and open the **Tools** tab.
+2. Click **Take Snapshot** to capture its current metadata state (an "Original" snapshot is captured automatically on upload).
+3. Make your edits in the **Metadata Editor** or **Sanitization** tab.
+4. Return to **Tools** — **Metadata Difference Highlighting** now shows exactly what changed versus the snapshot, field by field.
+5. Changed your mind? Click **Restore** on the snapshot to roll every pending edit back in one action.
+
+### Walkthrough 4 — Start clean
+
+> [!WARNING]
+> This deletes everything The Umidasu has stored — there is no undo.
+
+```bash
+chmod +x flush
+./flush
+```
+
+Type `RESET` when prompted. The history database and every stored original/working/output file are wiped; the app is back to a first-run state.
+
+---
+
+## ⚙️ Installation
 
 ### Requirements
 
 | Component | Purpose |
 |---|---|
-| Python 3.9 - 3.13 | Backend runtime (FastAPI/Uvicorn). Newer interpreters may lack prebuilt wheels for pinned dependencies. |
+| Python 3.9 – 3.13 | Backend runtime (FastAPI/Uvicorn). Newer interpreters may lack prebuilt wheels for pinned dependencies. |
 | Node.js and npm | Frontend build (React/TypeScript/Vite). |
 | exiftool | Image/document metadata read and write. |
 | ffmpeg / ffprobe | Video and audio container analysis. |
@@ -145,12 +205,13 @@ chmod +x execute.sh
 
 `execute.sh` will, on every run:
 
-1. Verify `python3`, `node`/`npm`, and the external tools `exiftool`/`ffmpeg`/`ffprobe` are present, printing install instructions for anything missing.
-2. Select a compatible Python interpreter automatically (preferring 3.13 down to 3.9) and create a virtual environment at `.venv/` if one does not already exist, offering to rebuild it if an existing one was created with a different interpreter version.
-3. Install pinned backend dependencies (skipped if `requirements.txt` is unchanged since the last run).
-4. Install and build the frontend (skipped if the existing build is already current).
-5. Start a single backend process that also serves the built frontend, bound to `127.0.0.1` by default.
-6. Print the local URL to open.
+1. Add common tool install locations (`/usr/local/bin`, `/snap/bin`, `~/.local/bin`) to `PATH` so the backend sees every tool your shell sees.
+2. Verify `python3`, `node`/`npm`, and the external tools `exiftool`/`ffmpeg`/`ffprobe` are present, printing install instructions for anything missing.
+3. Select a compatible Python interpreter automatically (preferring 3.13 down to 3.9) and create a virtual environment at `.venv/` if one does not already exist, offering to rebuild it if an existing one was created with a different interpreter version.
+4. Install pinned backend dependencies (skipped if `requirements.txt` is unchanged since the last run).
+5. Install and build the frontend (skipped if the existing build is already current).
+6. Start a single backend process that also serves the built frontend, bound to `127.0.0.1` by default.
+7. Print the local URL to open.
 
 Press `Ctrl+C` to stop. The script shuts down its child process cleanly.
 
@@ -161,6 +222,9 @@ Press `Ctrl+C` to stop. The script shuts down its child process cleanly.
 | Debian / Ubuntu / Kali | `sudo apt-get install -y libimage-exiftool-perl ffmpeg` |
 | Fedora / RHEL | `sudo dnf install -y perl-Image-ExifTool ffmpeg` |
 | Arch | `sudo pacman -S perl-image-exiftool ffmpeg` |
+
+> [!NOTE]
+> A tool can work fine in your terminal but still show as **not installed** in the app if it lives somewhere your shell only adds to `PATH` via `~/.bashrc` (snap packages and manual/static installs are the usual culprits) — a non-interactive script invocation doesn't source that file. `execute.sh` now covers the common locations automatically; if a tool still doesn't show up, run `which ffmpeg` / `which ffprobe` and symlink the result into `/usr/local/bin`.
 
 ### Configuration
 
@@ -177,7 +241,7 @@ All configuration is via environment variables, read by `backend/app/core/config
 
 ---
 
-##  Architecture
+## 🏗️ Architecture
 
 ```text
 umidasu/
@@ -199,11 +263,29 @@ umidasu/
     tests/                  pytest suite with real fixtures (no mocked parsers)
   frontend/
     src/
-      components/            React components (upload, inspection, editor, hex viewer, diff, snapshots, presets, history, reports…)
+      components/            React components — upload, inspection, editor, insert-metadata,
+                              removal presets, hex viewer, diff, snapshots, copy/paste, presets,
+                              history, reports, and more
       hooks/useFileSession.ts  edit/undo/redo/save state management
       services/api.ts         typed API client
       types/metadata.ts       TypeScript types mirroring the backend Pydantic models
 ```
+
+### Built with
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/-Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/-TailwindCSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![SQLite](https://img.shields.io/badge/-SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![ExifTool](https://img.shields.io/badge/-ExifTool-111111?style=flat-square)
+![FFmpeg](https://img.shields.io/badge/-FFmpeg-007808?style=flat-square&logo=ffmpeg&logoColor=white)
+
+</div>
 
 ### Parser plugin interface
 
@@ -217,7 +299,7 @@ New formats can be added by writing a new parser module and registering it in `b
 
 ---
 
-##  Security model
+## 🔒 Security model
 
 - Binds to `127.0.0.1` by default; any other host must be opted into explicitly.
 - Randomized server-side file identifiers — uploaded filenames are never trusted or used as storage paths.
@@ -228,8 +310,9 @@ New formats can be added by writing a new parser module and registering it in `b
 - Error responses are generic by default and never leak internal paths, stack traces, or tool output to the client.
 - Archive and nested-archive contents are listed, never auto-extracted.
 - Office document macros are never executed.
+- Custom tag writes are validated against what the target format actually supports before being reported as applied — an unrecognized tag name fails loudly, it is never silently dropped.
 
-##  Known limitations
+## ⚠️ Known limitations
 
 Reported honestly, not hidden from the user interface:
 
@@ -237,8 +320,9 @@ Reported honestly, not hidden from the user interface:
 - Digital signature validation (cryptographic) is not implemented for PDFs — only presence is heuristically flagged.
 - Video/audio analysis is container/stream-level only; no frame-by-frame decoding is performed.
 - Metadata removal presets cannot guarantee complete sanitization. Residual data may remain in pixel content, document body text, embedded streams, thumbnails, or format-specific structures that are not exposed as writable tags. This is stated to the user before and after every removal operation.
+- Custom tags for image/video/audio files must be names your installed exiftool recognizes; truly invented tag names cannot be written without a custom exiftool configuration.
 
-##  Testing
+## 🧪 Testing
 
 ```bash
 source .venv/bin/activate
@@ -246,20 +330,32 @@ cd backend
 pytest tests/ -v
 ```
 
-The suite runs against real generated fixture files (JPEG with real EXIF/GPS, DOCX, PDF, ZIP) rather than mocked parsers, covering identification and MIME-mismatch detection, hashing, extraction, editing, removal presets, undo/redo/reset, save-as plus verification, original-file integrity, custom timestamps (including the documented Linux limitation), copy/paste, snapshots and diffing, presets, duplicate and missing-field detection, metadata size analysis, change history, save-without-recompression, path-traversal rejection, and report export.
+The suite runs against real generated fixture files (JPEG with real EXIF/GPS, DOCX, PDF, ZIP) rather than mocked parsers — 65 tests covering identification and MIME-mismatch detection, hashing, extraction, editing, metadata insertion, removal presets, undo/redo/reset, save plus verification, original-file integrity, custom timestamps (including the documented Linux limitation), copy/paste, snapshots and diffing, presets, duplicate and missing-field detection, metadata size analysis, change history, save-without-recompression, office core-property validation, path-traversal rejection, and report export.
 
-##  Fail-safe reset
+## 🧹 Fail-safe reset
 
-`./flush` deletes all locally stored progress: the history database (file records, operation log, saved presets) and every originals/working/output file on disk under the configured data directory. It is destructive and irreversible, and prompts for confirmation before acting. See the script itself for details.
+`./flush` deletes all locally stored progress: the history database (file records, operation log, saved presets) and every originals/working/output file on disk under the configured data directory. It is destructive and irreversible, requires typing `RESET` to confirm, and never runs silently.
 
 ```bash
 chmod +x flush
 ./flush
 ```
 
+```text
+  THE UMIDASU — FAIL-SAFE RESET
+
+  WARNING: This will permanently delete:
+    - The history database:   ~/.umidasu/umidasu.db
+    - All stored originals:   ~/.umidasu/originals
+    - All working copies:     ~/.umidasu/working
+    - All saved outputs:      ~/.umidasu/output
+
+  Type RESET to confirm:
+```
+
 ---
 
-##  Disclaimer
+## ⚖️ Disclaimer
 
 The Umidasu is a local inspection and editing tool. It does not guarantee complete metadata removal for every format and should not be treated as a substitute for understanding what a given file format can and cannot fully sanitize. Use it only on files you own or are explicitly authorized to inspect and modify.
 
@@ -267,7 +363,7 @@ The Umidasu is a local inspection and editing tool. It does not guarantee comple
 
 <div align="center">
 
-###  THE UMIDASU
+### 🔍 THE UMIDASU
 
 **Reveal What Files Conceal.**
 
